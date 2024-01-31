@@ -31,6 +31,7 @@ public class AppTest {
         assertThat(out)
                 .contains("== 명언 앱 ==");
     }
+
     @Test
     @DisplayName("종료")
     void t2() {
