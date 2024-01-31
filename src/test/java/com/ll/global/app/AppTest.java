@@ -87,7 +87,7 @@ public class AppTest {
     @Test
     @DisplayName("목록")
     void t6() {
-        final String out2 = run("""
+        final String out = run("""
                 등록
                 현재를 사랑하라.
                 작자미상
@@ -97,7 +97,7 @@ public class AppTest {
                 목록
                 """);
 
-        assertThat(out2)
+        assertThat(out)
                 .contains("번호 / 작가 / 명언")
                 .contains("------------------")
                 .contains("2 / 작자미상 / 과거에 집착하지 마라.")
@@ -107,7 +107,7 @@ public class AppTest {
     @Test
     @DisplayName("목록 2")
     void t7() {
-        final String out2 = run("""
+        final String out = run("""
                 등록
                 현재를 사랑하라.
                 작자미상
@@ -117,7 +117,7 @@ public class AppTest {
                 목록
                 """);
 
-        assertThat(out2)
+        assertThat(out)
                 .contains("번호 / 작가 / 명언")
                 .contains("------------------")
                 .contains("2 / 홍길동 / 과거에 집착하지 마라.")
