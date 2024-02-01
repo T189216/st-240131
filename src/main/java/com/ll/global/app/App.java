@@ -56,6 +56,12 @@ public class App {
                 case "종료" -> {
                     return;
                 }
+                case "삭제?id=1" -> {
+                    quotationList
+                            .removeIf(quotation -> quotation.getId() == 1);
+
+                    System.out.println("1번 명언이 삭제되었습니다.");
+                }
             }
         }
     }
