@@ -21,4 +21,12 @@ public class RqTest {
 
         assertThat(rq.getParameter("이름")).isEqualTo("Ellie");
     }
+
+    @Test
+    @DisplayName("getParameter 2")
+    void t3() {
+        final Rq rq = new Rq("삭제?이름=Paul");
+
+        assertThat(rq.getParameter("이름")).isEqualTo("Paul");
+    }
 }
