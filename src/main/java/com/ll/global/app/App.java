@@ -62,6 +62,12 @@ public class App {
 
                     System.out.println("1번 명언이 삭제되었습니다.");
                 }
+                case "삭제?id=2" -> {
+                    quotationList
+                            .removeIf(quotation -> quotation.getId() == 2);
+
+                    System.out.println("2번 명언이 삭제되었습니다.");
+                }
             }
         }
     }
