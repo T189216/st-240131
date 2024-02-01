@@ -11,6 +11,6 @@ public class RqTest {
     void t1() {
         final Rq rq = new Rq("삭제?id=1");
 
-        assertThat(rq.getAction()).isEqualTo("삭제;");
+        assertThat(rq.getAction()).isEqualTo("삭제");
     }
 }
