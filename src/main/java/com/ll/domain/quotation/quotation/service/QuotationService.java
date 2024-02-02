@@ -1,45 +1,42 @@
 package com.ll.domain.quotation.quotation.service;
 
 import com.ll.domain.quotation.quotation.entity.Quotation;
+import com.ll.domain.quotation.quotation.repository.QuotationRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class QuotationService {
-    private final List<Quotation> quotationList;
-    private long lastQuotationId;
+    private final QuotationRepository quotationRepository;
+
 
     public QuotationService() {
-        quotationList = new ArrayList<>();
-        lastQuotationId = 0;
+        quotationRepository = new QuotationRepository();
     }
 
     public List<Quotation> findAll() {
-        return quotationList;
+        return quotationRepository.findAll();
     }
 
     public void remove(Quotation quotation) {
-        quotationList.remove(quotation);
+        quotationRepository.delete(quotation);
     }
 
     public Optional<Quotation> findById(long id) {
-        return quotationList
-                .stream()
-                .filter(quotation -> quotation.getId() == id)
-                .findFirst();
+        return quotationRepository.findById(id);
     }
 
     public void modify(Quotation quotation, String author, String content) {
         quotation.setContent(content);
         quotation.setAuthor(author);
+
+        quotationRepository.save(quotation);
     }
 
     public Quotation write(String author, String content) {
-        final long id = ++lastQuotationId;
+        final Quotation quotation = new Quotation(content, author);
 
-        final Quotation quotation = new Quotation(id, content, author);
-        quotationList.add(quotation);
+        quotationRepository.save(quotation);
 
         return quotation;
     }
