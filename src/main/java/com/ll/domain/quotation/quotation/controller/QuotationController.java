@@ -1,30 +1,27 @@
 package com.ll.domain.quotation.quotation.controller;
 
 import com.ll.domain.quotation.quotation.entity.Quotation;
+import com.ll.domain.quotation.quotation.service.QuotationService;
 import com.ll.global.rq.Rq;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class QuotationController {
     private final Scanner scanner;
-    private final List<Quotation> quotationList;
-    private long lastQuotationId;
+    private final QuotationService quotationService;
 
     public QuotationController(Scanner scanner) {
         this.scanner = scanner;
-        quotationList = new ArrayList<>();
-        lastQuotationId = 0;
+        quotationService = new QuotationService();
     }
 
     public void actionModify(Rq rq) {
         final long id = rq.getParameterAsLong("id", 0);
 
-        quotationList
-                .stream()
-                .filter(_quotation -> _quotation.getId() == id)
-                .findFirst()
+        Optional<Quotation> quotationOpt = quotationService.findById(id);
+
+        quotationOpt
                 .ifPresentOrElse(
                         quotation -> {
                             System.out.println("명언(기존) : %s".formatted(quotation.getContent()));
@@ -35,8 +32,7 @@ public class QuotationController {
                             System.out.print("작가: ");
                             final String author = scanner.nextLine().trim();
 
-                            quotation.setContent(content);
-                            quotation.setAuthor(author);
+                            quotationService.modify(quotation, author, content);
 
                             System.out.println("%d번 명언이 수정되었습니다.".formatted(id));
                         },
@@ -47,13 +43,13 @@ public class QuotationController {
     public void actionDelete(Rq rq) {
         final long id = rq.getParameterAsLong("id", 0);
 
-        quotationList
+        quotationService.findAll()
                 .stream()
                 .filter(quotation -> quotation.getId() == id)
                 .findFirst()
                 .ifPresentOrElse(
                         quotation -> {
-                            quotationList.remove(quotation);
+                            quotationService.remove(quotation);
                             System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
                         },
                         () -> System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id))
@@ -64,7 +60,7 @@ public class QuotationController {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("------------------");
 
-        quotationList
+        quotationService.findAll()
                 .reversed()
                 .forEach(
                         quotation -> System.out.println(
@@ -84,12 +80,9 @@ public class QuotationController {
         System.out.print("작가: ");
         final String author = scanner.nextLine().trim();
 
-        final long id = ++lastQuotationId;
+        final Quotation quotation = quotationService.write(author, content);
 
-        final Quotation quotation = new Quotation(id, content, author);
-        quotationList.add(quotation);
-
-        System.out.println("%d번 명언이 등록되었습니다.".formatted(id));
+        System.out.println("%d번 명언이 등록되었습니다.".formatted(quotation.getId()));
     }
 
     public void dispatch(Rq rq) {
