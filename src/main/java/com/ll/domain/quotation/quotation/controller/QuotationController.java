@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class QuotationController {
-    final Scanner scanner;
-    final List<Quotation> quotationList;
-    long lastQuotationId;
+    private final Scanner scanner;
+    private final List<Quotation> quotationList;
+    private long lastQuotationId;
 
     public QuotationController(Scanner scanner) {
         this.scanner = scanner;
@@ -86,7 +86,7 @@ public class QuotationController {
 
         final long id = ++lastQuotationId;
 
-        Quotation quotation = new Quotation(id, content, author);
+        final Quotation quotation = new Quotation(id, content, author);
         quotationList.add(quotation);
 
         System.out.println("%d번 명언이 등록되었습니다.".formatted(id));
