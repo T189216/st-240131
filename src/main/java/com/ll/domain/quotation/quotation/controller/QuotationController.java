@@ -91,4 +91,13 @@ public class QuotationController {
 
         System.out.println("%d번 명언이 등록되었습니다.".formatted(id));
     }
+
+    public void dispatch(Rq rq) {
+        switch (rq.getAction()) {
+            case "등록" -> actionWrite();
+            case "삭제" -> actionDelete(rq);
+            case "수정" -> actionModify(rq);
+            case "목록" -> actionShowList();
+        }
+    }
 }
