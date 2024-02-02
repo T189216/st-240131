@@ -78,24 +78,27 @@ public class App {
                 case "수정" -> {
                     final long id = rq.getParameterAsLong("id", 0);
 
-                    final Quotation quotation = quotationList
+                    quotationList
                             .stream()
                             .filter(_quotation -> _quotation.getId() == id)
                             .findFirst()
-                            .get();
+                            .ifPresentOrElse(
+                                    quotation -> {
+                                        System.out.println("명언(기존) : %s".formatted(quotation.getContent()));
+                                        System.out.print("명언: ");
+                                        final String content = scanner.nextLine().trim();
 
-                    System.out.println("명언(기존) : %s".formatted(quotation.getContent()));
-                    System.out.print("명언: ");
-                    final String content = scanner.nextLine().trim();
+                                        System.out.println("작가(기존) : %s".formatted(quotation.getAuthor()));
+                                        System.out.print("작가: ");
+                                        final String author = scanner.nextLine().trim();
 
-                    System.out.println("작가(기존) : %s".formatted(quotation.getAuthor()));
-                    System.out.print("작가: ");
-                    final String author = scanner.nextLine().trim();
+                                        quotation.setContent(content);
+                                        quotation.setAuthor(author);
 
-                    quotation.setContent(content);
-                    quotation.setAuthor(author);
-
-                    System.out.println("%d번 명언이 수정되었습니다.".formatted(id));
+                                        System.out.println("%d번 명언이 수정되었습니다.".formatted(id));
+                                    },
+                                    () -> System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id))
+                            );
                 }
             }
         }
