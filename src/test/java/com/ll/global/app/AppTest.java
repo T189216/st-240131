@@ -190,4 +190,24 @@ public class AppTest {
                 .contains("2 / 마이크 디트카 / 성공은 영원하지 않고, 실패는 치명적이지 않다.")
                 .contains("1 / 작자미상 / 현재를 사랑하라.");
     }
+
+    @Test
+    @DisplayName("존재하지 않는 명언에 대한 삭제 예외처리")
+    void t11() {
+        final String out = run("""
+                등록
+                현재를 사랑하라.
+                작자미상
+                등록
+                과거에 집착하지 마라.
+                홍길동
+                삭제?id=2
+                삭제?id=3
+                목록
+                """);
+
+        assertThat(out)
+                .contains("3번 명언은 존재하지 않습니다.")
+                .contains("2번 명언은 삭제되었습니다.");
+    }
 }
