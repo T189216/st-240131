@@ -2,11 +2,16 @@ package com.ll.domain.quotation.quotation.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
 public class Quotation {
     private final long id;
-    private final String content;
-    private final String author;
+
+    @Setter
+    private String content;
+
+    @Setter
+    private String author;
 }
